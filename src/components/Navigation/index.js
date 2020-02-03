@@ -1,65 +1,34 @@
-import React from 'react';
+import React from 'react'
+import yaml from 'js-yaml'
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
-export const routes = [
-    {
-      path: '/all',
-      data: 'all'
-    },
-    {
-      path: '/main',
-      data: 'main'
-    },
-    {
-      path: '/channel',
-      data: 'Channel'
-    },
-    {
-      path: '/sweeps',
-      data: 'Sweeps'
-    }
-  ]
+function Navigation(props) {
+    /* converting yaml to json */
+    const result = Array.from(props.data)
+    return (
+        <Accordion defaultActiveKey="0">{  
+            result.map((category, index)=>(
+                <Card>
+                    <Card.Header>
+                    <Accordion.Toggle as={Button} variant="link" eventKey={index}>
+                        {Object.keys(category)[0]}
+                    </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey={index}>
+                        <Card.Body>
+                        {
+                            Array.from(category[Object.keys(category)[0]]).map((item) => (
+                                <div><a href={`/${item}`}>{item}</a></div>
+                            ))
+                        }
+                        </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+            ))}
+        </Accordion>
+    )
+}
 
-const Navigation = () => (
-    <Accordion defaultActiveKey="0">
-        <Card>
-            <Card.Header>
-            <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                Pages
-            </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey="0">
-                <Card.Body>
-                {
-                    routes.map((route) => (
-                        <div><a href={route.path}>{route.data}</a></div>
-                    ))
-                }
-                </Card.Body>
-            </Accordion.Collapse>
-        </Card>
-        <Card>
-            <Card.Header>
-            <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                Page Components
-            </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey="1">
-            <Card.Body>ContentGroup</Card.Body>
-            </Accordion.Collapse>
-        </Card>
-        <Card>
-            <Card.Header>
-            <Accordion.Toggle as={Button} variant="link" eventKey="2">
-                Core Components
-            </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey="2">
-            <Card.Body>Channel</Card.Body>
-            </Accordion.Collapse>
-        </Card>
-    </Accordion>
-);
-export default Navigation;
+export default Navigation
