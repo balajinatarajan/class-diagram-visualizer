@@ -15,10 +15,11 @@ import yaml from 'js-yaml'
 
 function App() {
   const [data, updateData] = useState({})
+  const baseURL = (process.env.REPO_URL !== undefined) ? process.env.REPO_URL : PROPERTIES.BASE_CONFIG_URL
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(PROPERTIES.category_url)
+      const response = await fetch(baseURL + 'category.yml')
       const text = await response.text()
       updateData(yaml.safeLoad(text))
     }

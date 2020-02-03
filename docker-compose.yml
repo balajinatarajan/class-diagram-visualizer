@@ -1,0 +1,16 @@
+version: '3.7'
+
+services: 
+  main:
+    container_name: asset_model_visualizer
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes: 
+      - '.:/app'
+      - '/app/node_modules'
+    ports: 
+      - '3001:3000'
+    environment: 
+      - NODE_ENV=development
+      - REPO_URL=http://localhost:3001/config/

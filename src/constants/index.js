@@ -1,4 +1,3 @@
 export const PROPERTIES = {
-    "category_url": "http://localhost:3000/config/category.yml",
-    "BASE_URL": "http://localhost:3000/config/",
+    "BASE_CONFIG_URL": "http://localhost:3001/config/",
 }

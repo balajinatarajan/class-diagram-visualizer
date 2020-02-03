@@ -7,12 +7,14 @@ function Mermaid(props) {
 
     const [svg, updateSvg] = useState({})
 
+    const baseURL = (process.env.REPO_URL !== undefined) ? process.env.REPO_URL : PROPERTIES.BASE_CONFIG_URL
+
     useEffect(() => {
       async function featchData() {
         mermaid.mermaidAPI.initialize({
           startOnLoad: false,
         })
-        const categoryResponse = await fetch(`${PROPERTIES.BASE_URL}${props.diagramKey}.txt`)
+        const categoryResponse = await fetch(`${baseURL}${props.diagramKey}.txt`)
         let categoryText = await categoryResponse.text()
 
         /* extarct class names from main response */
@@ -22,7 +24,7 @@ function Mermaid(props) {
         classes.forEach(async(element) => {
           // parse the main response to get other definitions from the respective files 
           if(props.diagramKey !== element) {
-            subsequentFetches.push(fetch(`${PROPERTIES.BASE_URL}${element}.txt`).then( response => response.text()))
+            subsequentFetches.push(fetch(`${baseURL}${element}.txt`).then( response => response.text()))
           }
         });
 
