@@ -4,7 +4,6 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 function Navigation(props) {
-    /* converting yaml to json */
     const result = Array.from(props.data)
     return (
         <Accordion defaultActiveKey="0">{  
