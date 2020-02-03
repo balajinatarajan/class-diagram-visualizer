@@ -20,7 +20,9 @@ function Mermaid(props) {
         let promises = [];
         classes.forEach(async(element) => {
           // parse the main response to get other definitions from the respective files 
-          promises.push(fetch(`${PROPERTIES.BASE_URL}${element}.txt`).then( response => response.text()))
+          if(props.diagramKey !== element) {
+            promises.push(fetch(`${PROPERTIES.BASE_URL}${element}.txt`).then( response => response.text()))
+          }
         });
 
         Promise.all(promises).then(finalResponse => {
