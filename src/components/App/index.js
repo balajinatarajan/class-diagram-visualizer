@@ -54,14 +54,18 @@ function App() {
               {
                 Array.from(data).map((category)=>(
                   Array.from(category[Object.keys(category)[0]]).map((item) => (
-                    <div><a href={`/${item}`}>{item}</a></div>
+                    //<div><a href={`/${item}`}>{item}</a></div>
+                    
+                    /*<Route key={item} path={item} 
+                    render={() => <Mermaid id="graph1" diagramKey={item} />}
+                    />*/
+                    
+                    <Route key={item} path={`/${item}`} render={() => <Mermaid id="graph1" diagramKey={item} />}/>
                   ))
                 ))
                   
                 /*getRoutes().map((route) => (
-                  <Route key={route.path} path={route.path} 
-                    render={() => <Mermaid id="graph1" content={`classDiagram${this.getGraphData(route.data)}`} />}
-                  />
+                 
                 ))*/
               }
               </Router>  

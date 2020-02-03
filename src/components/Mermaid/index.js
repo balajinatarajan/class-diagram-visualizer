@@ -1,37 +1,35 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import mermaid from 'mermaid'
+import { PROPERTIES } from '../../constants'
 
-class Mermaid extends Component {
-    constructor(props) {
-      super(props)
-      this.state = {
-        svg: null,
-      }
+function Mermaid(props) {
+
+    const [svg, updateSvg] = useState({})
+
+    useEffect(
+      async () => {
+        mermaid.mermaidAPI.initialize({
+          startOnLoad: false,
+        })
+        const response = await fetch(`${PROPERTIES.BASE_URL}${props.diagramKey}.txt`)
+        let text = await response.text()
+        text = `classDiagram\n${text}`
+        mermaid.mermaidAPI.render(props.id, text, svg => {
+          updateSvg(svg)
+        })
+    },[props.diagramKey]
+      
+    )
   
-      mermaid.mermaidAPI.initialize({
-        startOnLoad: false,
-      })
-    }
-  
-    componentDidMount() {
-      mermaid.mermaidAPI.render(this.props.id, this.props.content, svg => {
-        this.setState({ svg })
-      })
-    }
-  
-    render() {
-      if (!this.state.svg) {
-        return <div>Loading...</div>
-      }
-  
-      return <div dangerouslySetInnerHTML={{ __html: this.state.svg }} />
-    }
+    return(
+      <div dangerouslySetInnerHTML={{ __html: svg }} />
+    )
   }
   
   Mermaid.propTypes = {
     id: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
+    diagramKey: PropTypes.string.isRequired,
   }
   
   export default Mermaid
