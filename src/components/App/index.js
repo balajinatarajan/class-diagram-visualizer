@@ -16,15 +16,17 @@ import yaml from 'js-yaml'
 function App() {
   const [data, updateData] = useState({})
 
-  useEffect(
-    async () => {
+  useEffect(() => {
+    async function fetchData() {
       const response = await fetch(PROPERTIES.category_url)
       const text = await response.text()
       updateData(yaml.safeLoad(text))
-  }, [PROPERTIES.category_url])
+    }
+    fetchData()
+  }, [])
 
     return (
-      <Container>
+      <Router><Container>
         <h2>Asset Model Visualizer <Badge variant="secondary">0.0.1</Badge></h2>
         <br></br>
         <Row>
@@ -32,11 +34,11 @@ function App() {
             <Navigation data={data}></Navigation>
           </Col>
           <Col md={9}>
-            <Router>
               {
                 Array.from(data).map((category)=>(
                   Array.from(category[Object.keys(category)[0]]).map((item) => (
                     <Route key={item} path={`/${item}`} render={() => <Mermaid id="graph1" diagramKey={item} />}/>
+                    //<Route key={item} path={`/${item}`} render={() => <h3>{item}</h3>}/>
                   ))
                 ))
               }
@@ -47,10 +49,9 @@ function App() {
                     Click on the tabs on the sidebar to begin viewing the diagrams here
                   </p>
               </Jumbotron>)}/>
-              </Router>  
           </Col>
         </Row>
-      </Container>    
+      </Container></Router>  
     );
 }
 export default App;

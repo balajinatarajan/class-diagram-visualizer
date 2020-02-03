@@ -1,16 +1,19 @@
-import React from 'react'
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import React, { useState } from 'react'
+import Accordion from 'react-bootstrap/Accordion'
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+import { Link } from 'react-router-dom'
 
 function Navigation(props) {
     const result = Array.from(props.data)
+    const [eventkey, setEventKey] = useState(0)
+
     return (
-        <Accordion defaultActiveKey="0">{  
+        <Accordion defaultActiveKey={eventkey}>{  
             result.map((category, index)=>(
-                <Card>
+                <Card key={index}>
                     <Card.Header>
-                    <Accordion.Toggle as={Button} variant="link" eventKey={index}>
+                    <Accordion.Toggle as={Button} variant="link" eventKey={index} onClick={() => setEventKey(index)}>
                         {Object.keys(category)[0]}
                     </Accordion.Toggle>
                     </Card.Header>
@@ -18,7 +21,8 @@ function Navigation(props) {
                         <Card.Body>
                         {
                             Array.from(category[Object.keys(category)[0]]).map((item) => (
-                                <div><a href={`/${item}`}>{item}</a></div>
+                                <Link key={item} to={`/${item}`}>{item}</Link>
+                                //<a href={`/${item}`}>{item}</a>
                             ))
                         }
                         </Card.Body>

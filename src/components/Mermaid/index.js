@@ -7,8 +7,8 @@ function Mermaid(props) {
 
     const [svg, updateSvg] = useState({})
 
-    useEffect(
-      async () => {
+    useEffect(() => {
+      async function featchData() {
         mermaid.mermaidAPI.initialize({
           startOnLoad: false,
         })
@@ -16,7 +16,6 @@ function Mermaid(props) {
         let text = await response.text()
 
         let classes = text.match(/class[ a-zA-Z]*/g).map((a)=>(a.split(" ")[1]));
-        console.log(classes);
       
         let promises = [];
         classes.forEach(async(element) => {
@@ -28,13 +27,14 @@ function Mermaid(props) {
           let aggregatedResult = text;
           finalResponse.map(element => aggregatedResult += `\n${element}`)
           aggregatedResult = `classDiagram\n${aggregatedResult}`
-          console.log(aggregatedResult);
 
           mermaid.mermaidAPI.render(props.id, aggregatedResult, svg => {
             updateSvg(svg)
           })
         })
-    },[props.diagramKey])
+    }
+    featchData()
+  },[props.id, props.diagramKey])
   
     return(
       <div dangerouslySetInnerHTML={{ __html: svg }} />
