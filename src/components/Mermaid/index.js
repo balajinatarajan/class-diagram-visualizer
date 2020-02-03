@@ -12,24 +12,24 @@ function Mermaid(props) {
         mermaid.mermaidAPI.initialize({
           startOnLoad: false,
         })
-        const response = await fetch(`${PROPERTIES.BASE_URL}${props.diagramKey}.txt`)
-        let text = await response.text()
+        const categoryResponse = await fetch(`${PROPERTIES.BASE_URL}${props.diagramKey}.txt`)
+        let categoryText = await categoryResponse.text()
 
-        let classes = text.match(/class[ a-zA-Z]*/g).map((a)=>(a.split(" ")[1]));
+        /* extarct class names from main response */
+        let classes = categoryText.match(/class[ a-zA-Z]*/g).map((a)=>(a.split(" ")[1]));
       
-        let promises = [];
+        let subsequentFetches = [];
         classes.forEach(async(element) => {
           // parse the main response to get other definitions from the respective files 
           if(props.diagramKey !== element) {
-            promises.push(fetch(`${PROPERTIES.BASE_URL}${element}.txt`).then( response => response.text()))
+            subsequentFetches.push(fetch(`${PROPERTIES.BASE_URL}${element}.txt`).then( response => response.text()))
           }
         });
 
-        Promise.all(promises).then(finalResponse => {
-          let aggregatedResult = text;
-          finalResponse.map(element => aggregatedResult += `\n${element}`)
+        Promise.all(subsequentFetches).then(finalResponse => {
+          let aggregatedResult = categoryText;
+          finalResponse.map(response => aggregatedResult += `\n${response}`)
           aggregatedResult = `classDiagram\n${aggregatedResult}`
-
           mermaid.mermaidAPI.render(props.id, aggregatedResult, svg => {
             updateSvg(svg)
           })
