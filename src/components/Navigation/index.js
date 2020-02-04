@@ -21,7 +21,7 @@ function Navigation(props) {
                         <Card.Body>
                         {
                             Array.from(category[Object.keys(category)[0]]).map((item) => (
-                                <div><Link key={item} to={`/${item}`}>{item}</Link></div>
+                                <div key={item}><Link to={`/${item}`}>{item}</Link></div>
                             ))
                         }
                         </Card.Body>

@@ -7,7 +7,7 @@ function Mermaid(props) {
 
     const [svg, updateSvg] = useState({})
 
-    const baseURL = (process.env.REPO_URL !== undefined) ? process.env.REPO_URL : PROPERTIES.BASE_CONFIG_URL
+    const baseURL = (process.env.REACT_APP_REPO_URL !== undefined) ? process.env.REACT_APP_REPO_URL : PROPERTIES.BASE_CONFIG_URL
 
     useEffect(() => {
       async function featchData() {
