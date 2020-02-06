@@ -13,6 +13,7 @@ function Mermaid(props) {
       async function featchData() {
         mermaid.mermaidAPI.initialize({
           startOnLoad: false,
+          theme: 'dark',
         })
         const categoryResponse = await fetch(`${baseURL}${props.diagramKey}.txt`)
         let categoryText = await categoryResponse.text()
