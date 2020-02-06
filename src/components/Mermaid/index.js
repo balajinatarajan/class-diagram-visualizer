@@ -30,7 +30,8 @@ function Mermaid(props) {
 
         Promise.all(subsequentFetches).then(finalResponse => {
           let aggregatedResult = categoryText;
-          finalResponse.map(response => aggregatedResult += `\n${response}`)
+          // ignore 404 pages and concat responses
+          finalResponse.filter(response => response.indexOf('class')!==-1).map(response => aggregatedResult += `\n${response}`)
           aggregatedResult = `classDiagram\n${aggregatedResult}`
           mermaid.mermaidAPI.render(props.id, aggregatedResult, svg => {
             updateSvg(svg)

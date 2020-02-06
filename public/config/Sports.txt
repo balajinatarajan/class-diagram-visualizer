@@ -1,0 +1,3 @@
+class Sports{
+    <string> league_name
+}
